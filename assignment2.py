@@ -3,17 +3,6 @@ import logging
 from datetime import datetime
 
 
-
-def loggerSetup():
-
-    LOG_FILENAME = 'errors.log'
-    # Set up a specific logger with our desired output level
-    my_logger = logging.getLogger('assignment2')
-    my_logger.setLevel(logging.ERROR)
-    return my_logger
-
-
-
 def downloadData(url):
     with urllib.request.urlopen(url) as response:
       csv_data = response.read().decode('utf-8')
@@ -23,9 +12,10 @@ def downloadData(url):
 
 
 def processData(data):
+    data2 = data.split('\n') #split upon new line for processing
     personData={}
-    for i in range (1,len(data)-1):
-        each_data = data[i].split(',')
+    for i in range (1,len(data2)-1):
+        each_data = data2[i].split(',')
         ID=each_data[0]
         name=each_data[1]
         stringbirthday =each_data[2]
@@ -36,15 +26,22 @@ def processData(data):
             personData[int(ID)] = (name, birthday)
         except ValueError:
             my_logger.error(f"Error processing line #{i+1} for ID #{ID} - Invalid date: {stringbirthday}")
-
+    return personData
 
 def main() :
-#checking if it works........
+    #logger setup
+    LOG_FILENAME = 'errors.log'
+    my_logger = logging.getLogger('assignment2')
+    my_logger.setLevel(logging.ERROR)
+
+
+
     url = "https://s3.amazonaws.com/cuny-is211-spring2015/birthdays100.csv"
     downloadedData = downloadData(url)
     #print(downloadedData)
-    data2 = downloadedData.split('\n') #split upon new line for processing
+    personData=processData(downloadedData)
 
-    
+if __name__ == "__main__":
+    main() 
 
 
