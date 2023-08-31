@@ -25,8 +25,7 @@ def processData(data,my_logger):
         ID=each_data[0]
         name=each_data[1]
         stringbirthday =each_data[2]
-    #print(ID)
-    #print(name)
+
         try:
             birthday = datetime.strptime(stringbirthday, '%d/%m/%Y').date()
             personData[int(ID)] = (name, birthday)
