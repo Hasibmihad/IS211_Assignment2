@@ -16,9 +16,11 @@ def loggerSetup():
 
 
 def downloadData(url,my_logger):
+  try:
     with urllib.request.urlopen(url) as response:
       csv_data = response.read().decode('utf-8')
-
+  except ValueError:
+      my_logger.error("URL IS INVALID")
       return csv_data
 
 
@@ -50,11 +52,11 @@ def displayPerson(id,personData):
 
 
 
-def main() :
+def main(url) :
 
     logger=loggerSetup()
-   
-    url = "https://s3.amazonaws.com/cuny-is211-spring2015/birthdays100.csv"
+
+   # url = "https://s3.amazonaws.com/cuny-is211-spring2015/birthdays100.csv"
     downloadedData = downloadData(url,logger)
 
 
@@ -79,9 +81,12 @@ def main() :
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("square", help="display a square of a given number",type=int)
+    parser.add_argument("url", type=str, help="URL parameter without any double quotation")
     args = parser.parse_args()
-
-    main() 
+    if args.url:
+           main(args.url)
+    else:
+        print("URL Invalid. Exiting the program.")
+        sys.exit()
 
 
