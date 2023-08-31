@@ -2,12 +2,14 @@ import urllib.request
 import logging
 from datetime import datetime
 import sys
+import argparse
+
 
 def loggerSetup():
     logging.basicConfig(filename="errors.log", 
 					format='%(asctime)s %(message)s', 
 					filemode='w') 
-    logger=logging.getLogger() 
+    logger=logging.getLogger("assignment2") 
     logger.setLevel(logging.ERROR) 
     return logger
 
@@ -34,7 +36,7 @@ def processData(data,my_logger):
             birthday = datetime.strptime(stringbirthday, '%d/%m/%Y').date()
             personData[int(ID)] = (name, birthday)
         except ValueError:
-            my_logger.error(f"Error processing line #{i+1} for ID #{ID} - Invalid date: {stringbirthday}")
+            my_logger.error(f"Error processing line #{i+1} for ID #{ID}")
     return personData
 
 
@@ -76,6 +78,10 @@ def main() :
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("square", help="display a square of a given number",type=int)
+    args = parser.parse_args()
+
     main() 
 
 
