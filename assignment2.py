@@ -38,7 +38,8 @@ def processData(data,my_logger):
 def displayPerson(id,personData):
     if id in personData:
         print (f"Person #{id} is {personData[id][0]} with a birthday of {personData[id][1].strftime('%Y-%m-%d')}")
-
+    else :
+        print ("No user found with that id")
 def main() :
     #logger
     logger=loggerSetup()
@@ -50,7 +51,7 @@ def main() :
     personData=processData(downloadedData,logger)
     #print(personData)
 
-    #displayPerson(4,personData)
+    #displayPerson(102,personData)
     
 if __name__ == "__main__":
     main() 
