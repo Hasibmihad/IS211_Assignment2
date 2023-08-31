@@ -5,6 +5,7 @@ import sys
 import argparse
 
 
+#logger etup with file name errors.log , message willl be added with time, logger name is assignment2, level:error
 def loggerSetup():
     logging.basicConfig(filename="errors.log", 
 					format='%(asctime)s %(message)s', 
@@ -14,17 +15,19 @@ def loggerSetup():
     return logger
 
 
-
+#download data from url, if not then write in errors.log
 def downloadData(url,my_logger):
   try:
     with urllib.request.urlopen(url) as response:
       csv_data = response.read().decode('utf-8')
+      return csv_data
   except ValueError:
       my_logger.error("URL IS INVALID")
-      return csv_data
+      sys.exit()
+      
 
 
-
+#here csv data is processed, if failled then write in errors.log
 def processData(data,my_logger):
     data2 = data.split('\n') #split upon new line for processing
     personData={}
@@ -43,6 +46,7 @@ def processData(data,my_logger):
 
 
 def displayPerson(id,personData):
+
     if id in personData:
         print (f"Person #{id} is {personData[id][0]} with a birthday of {personData[id][1].strftime('%Y-%m-%d')}")
     else :
@@ -56,14 +60,11 @@ def main(url) :
 
     logger=loggerSetup()
 
-   # url = "https://s3.amazonaws.com/cuny-is211-spring2015/birthdays100.csv"
     downloadedData = downloadData(url,logger)
-
 
     personData=processData(downloadedData,logger)
 
     
-
     while True:
         print ("Please enter an ID to look up:")
         input_id=int(input())
@@ -80,6 +81,7 @@ def main(url) :
 
 
 if __name__ == "__main__":
+     # url = "https://s3.amazonaws.com/cuny-is211-spring2015/birthdays100.csv"
     parser = argparse.ArgumentParser()
     parser.add_argument("url", type=str, help="URL parameter without any double quotation")
     args = parser.parse_args()
