@@ -2,16 +2,20 @@ import urllib.request
 import logging
 from datetime import datetime
 
+def loggerSetup():
+    LOG_FILENAME = 'errors.log'
+    my_logger = logging.getLogger('assignment2')
+    my_logger.setLevel(logging.ERROR)
+    return my_logger
 
-def downloadData(url):
+def downloadData(url,my_logger):
     with urllib.request.urlopen(url) as response:
       csv_data = response.read().decode('utf-8')
 
       return csv_data
 
 
-
-def processData(data):
+def processData(data,my_logger):
     data2 = data.split('\n') #split upon new line for processing
     personData={}
     for i in range (1,len(data2)-1):
@@ -29,19 +33,17 @@ def processData(data):
     return personData
 
 def main() :
-    #logger setup
-    LOG_FILENAME = 'errors.log'
-    my_logger = logging.getLogger('assignment2')
-    my_logger.setLevel(logging.ERROR)
-
-
-
+    #logger
+    logger=loggerSetup
+   
     url = "https://s3.amazonaws.com/cuny-is211-spring2015/birthdays100.csv"
-    downloadedData = downloadData(url)
+    downloadedData = downloadData(url,logger)
     #print(downloadedData)
-    personData=processData(downloadedData)
 
+    personData=processData(downloadedData,logger)
+    print(personData)
 if __name__ == "__main__":
+
     main() 
 
 
