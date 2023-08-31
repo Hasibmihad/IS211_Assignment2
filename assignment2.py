@@ -34,6 +34,10 @@ def processData(data,my_logger):
             my_logger.error(f"Error processing line #{i+1} for ID #{ID} - Invalid date: {stringbirthday}")
     return personData
 
+
+def displayPerson(id,personData):
+    print (f"Person {id} is <name> with a birthday of")
+
 def main() :
     #logger
     logger=loggerSetup()
