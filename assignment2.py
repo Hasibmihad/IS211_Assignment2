@@ -21,10 +21,11 @@ def downloadData(url,my_logger):
     with urllib.request.urlopen(url) as response:
       csv_data = response.read().decode('utf-8')
       return csv_data
-  except ValueError:
+  except:
+      print ("System is Exiting")
       my_logger.error("URL IS INVALID")
       sys.exit()
-      
+   
 
 
 #here csv data is processed, if failled then write in errors.log
