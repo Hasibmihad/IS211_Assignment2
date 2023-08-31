@@ -3,10 +3,12 @@ import logging
 from datetime import datetime
 
 def loggerSetup():
-    LOG_FILENAME = 'errors.log'
-    my_logger = logging.getLogger('assignment2')
-    my_logger.setLevel(logging.ERROR)
-    return my_logger
+    logging.basicConfig(filename="errors.log", 
+					format='%(asctime)s %(message)s', 
+					filemode='w') 
+    logger=logging.getLogger() 
+    logger.setLevel(logging.ERROR) 
+    return logger
 
 def downloadData(url,my_logger):
     with urllib.request.urlopen(url) as response:
@@ -34,7 +36,7 @@ def processData(data,my_logger):
 
 def main() :
     #logger
-    logger=loggerSetup
+    logger=loggerSetup()
    
     url = "https://s3.amazonaws.com/cuny-is211-spring2015/birthdays100.csv"
     downloadedData = downloadData(url,logger)
@@ -42,8 +44,10 @@ def main() :
 
     personData=processData(downloadedData,logger)
     print(personData)
-if __name__ == "__main__":
 
+
+    
+if __name__ == "__main__":
     main() 
 
 
