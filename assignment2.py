@@ -2,6 +2,7 @@ import urllib.request
 import logging
 from datetime import datetime
 
+
 def loggerSetup():
     logging.basicConfig(filename="errors.log", 
 					format='%(asctime)s %(message)s', 
@@ -10,11 +11,14 @@ def loggerSetup():
     logger.setLevel(logging.ERROR) 
     return logger
 
+
+
 def downloadData(url,my_logger):
     with urllib.request.urlopen(url) as response:
       csv_data = response.read().decode('utf-8')
 
       return csv_data
+
 
 
 def processData(data,my_logger):
@@ -40,17 +44,23 @@ def displayPerson(id,personData):
     else :
         print ("No user found with that id")
 def main() :
-    #logger
+
     logger=loggerSetup()
    
     url = "https://s3.amazonaws.com/cuny-is211-spring2015/birthdays100.csv"
     downloadedData = downloadData(url,logger)
-    #print(downloadedData)
+
 
     personData=processData(downloadedData,logger)
-    #print(personData)
 
-    #displayPerson(102,personData)
+
+    displayPerson(102,personData)
+    
+
+
+
+
+
     
 if __name__ == "__main__":
     main() 
