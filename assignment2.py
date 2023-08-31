@@ -1,7 +1,7 @@
 import urllib.request
 import logging
 from datetime import datetime
-
+import sys
 
 def loggerSetup():
     logging.basicConfig(filename="errors.log", 
@@ -43,6 +43,11 @@ def displayPerson(id,personData):
         print (f"Person #{id} is {personData[id][0]} with a birthday of {personData[id][1].strftime('%Y-%m-%d')}")
     else :
         print ("No user found with that id")
+
+
+
+
+
 def main() :
 
     logger=loggerSetup()
@@ -53,15 +58,23 @@ def main() :
 
     personData=processData(downloadedData,logger)
 
+    
 
-    displayPerson(102,personData)
+    while True:
+        print ("Please enter an ID to look up:")
+        input_id=int(input())
+        if input_id <= 0:
+            print("Exiting the program.")
+            sys.exit()
+        else:
+            displayPerson(input_id, personData)
     
 
 
 
 
 
-    
+
 if __name__ == "__main__":
     main() 
 
