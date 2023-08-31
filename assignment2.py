@@ -32,6 +32,11 @@ for i in range (1,len(data2)-1):
   stringbirthday =each_data[2]
   #print(ID)
   #print(name)
+try:
+    birthday = datetime.strptime(stringbirthday, '%d/%m/%Y').date()
+    personData[int(ID)] = (name, birthday)
+except ValueError:
+    my_logger.error(f"Error processing line #{i+1} for ID #{ID} - Invalid date: {stringbirthday}")
   
 
 
